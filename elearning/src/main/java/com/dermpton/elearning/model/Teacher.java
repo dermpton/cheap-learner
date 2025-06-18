@@ -1,8 +1,20 @@
 package com.dermpton.elearning.model;
 
-import io.micrometer.common.lang.NonNull;
+import java.util.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,13 +24,43 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(
-    name = "teacher"
+    name = "teachers"
 )
 public class Teacher {
-    private String[] announcements;
+    private String systemRole;
 
-    @NonNull
-    private String teachersName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long teacherId;
+
+    @ElementCollection
+    private List<String> announcements;
     
+    @ElementCollection
+    private List<String> feedback;
+    
+    @NotBlank(message = "Provide an Institution/Organization")
+    @Column(nullable = false)
+    private String adminSchool;
+
+    @NotNull(message = "Provide a name")
+    @Column(nullable = false)
+    private String teachersName;
+
+    @Email
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private Date initialDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastLogout;
+
+    @NotNull(message = "Password required")
+    @Column(nullable = false)
+    private String password;
 
 }
+
