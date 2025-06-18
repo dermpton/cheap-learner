@@ -1,0 +1,144 @@
+<!doctype html>
+<html xmlns:th="http://thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <title>Student Login</title>
+</head>
+
+<body class="roboto-font">
+    <div class="container">
+        <div class="form-box login">
+            <form id="login-form">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <box-icon name='user'></box-icon>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <box-icon name='lock' type='solid'></box-icon>
+                </div>
+                <div class="forgot-link">
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn student-btn">Login</button>
+                <p>or login with social platforms</p>
+                <div class="social-icons">
+                    <box-icon type='logo' name='google'></box-icon>
+                    <box-icon name='facebook' type='logo'></box-icon>
+                    <box-icon type='logo' name='github'></box-icon>
+                    <box-icon type='logo' name='linkedin'></box-icon>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <form id="register-form">
+                <h1>Register</h1>
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <box-icon name='user'></box-icon>
+                </div>
+                <div class="input-box">
+                    <input type="email" name="email" placeholder="Email" required>
+                    <box-icon type='solid' name='envelope'></box-icon>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <box-icon name='lock' type='solid'></box-icon>
+                </div>
+                <button type="submit" class="btn student-btn">Register</button>
+                <p>or login with social platforms</p>
+                <div class="social-icons">
+                    <box-icon type='logo' name='google'></box-icon>
+                    <box-icon name='facebook' type='logo'></box-icon>
+                    <box-icon type='logo' name='github'></box-icon>
+                    <box-icon type='logo' name='linkedin'></box-icon>
+                </div>
+            </form>
+        </div>
+
+        <div class="toggle-box student-toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Hello, Welcome Student</h1>
+                <p>Don't have an account</p>
+                <button class="btn register-btn student-btn">Register</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <h1>Welcome Back Student</h1>
+                <p>Already have an account</p>
+                <button class="btn login-btn student-btn">Login</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Frontend toggle functionality
+        const container = document.querySelector('.container');
+        const registerBtn = document.querySelector('.register-btn');
+        const loginBtn = document.querySelector('.login-btn');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add('active');
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove('active');
+        });
+
+        // Backend communication
+        const handleFormSubmit = async (formId, url) => {
+            const form = document.getElementById(formId);
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Get form data
+                const formData = new FormData(form);
+                const clientData = {};
+
+                // Convert FormData to JSON
+                for (let [key, value] of formData.entries()) {
+                    clientData[key] = value;
+                }
+
+                console.log('Submitting form data:', clientData);
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(clientData),
+                        credentials: 'include'
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || `Error: ${response.status}`);
+                    }
+
+                    console.log('Success', data);
+                    if (data.redirectTo) {
+                        window.location.href = data.redirectTo;
+                    }
+                } catch (err) {
+                    console.error(`Request failed: ${err.message}`);
+                    alert(`Operation failed: ${err.message}`);
+                }
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            handleFormSubmit('login-form', 'http://localhost:3000/student/login');
+            handleFormSubmit('register-form', 'http://localhost:3000/student/signup');
+        });
+    </script>
+</body>
+
+</html>
