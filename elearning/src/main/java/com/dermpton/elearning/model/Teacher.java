@@ -15,6 +15,8 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,9 @@ import lombok.NoArgsConstructor;
     name = "teachers"
 )
 public class Teacher {
+	
+	@NotBlank(message = "Provide a system role")
+	@Column(nullable = false)
     private String systemRole;
 
     @Id
@@ -43,7 +48,7 @@ public class Teacher {
     @Column(nullable = false)
     private String adminSchool;
 
-    @NotNull(message = "Provide a name")
+    @NotBlank(message = "Provide a name")
     @Column(nullable = false)
     private String teachersName;
 
@@ -60,7 +65,16 @@ public class Teacher {
 
     @NotNull(message = "Password required")
     @Column(nullable = false)
+    @Size(
+    		min = 8,
+    		max = 64,
+    		message = "Password must be between 8 and 64 characters"
+    		)
+    @Pattern(
+    		regexp = "^(?=.*[0-9])(?=.*[A-Z](?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{8,65})$"
+    		)
     private String password;
 
 }
+
 
