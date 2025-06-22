@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -25,18 +25,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(
-    name = "teachers"
-)
+@Table(name = "teachers")
 public class Teacher {
+	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long teacherId;
 	
 	@NotBlank(message = "Provide a system role")
 	@Column(nullable = false)
     private String systemRole;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teacherId;
 
     @ElementCollection
     private List<String> announcements;
@@ -56,6 +54,9 @@ public class Teacher {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @OneToMany(mappedBy = "instructor")
+    List<Course> courses;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date initialDate;
@@ -73,8 +74,11 @@ public class Teacher {
     @Pattern(
     		regexp = "^(?=.*[0-9])(?=.*[A-Z](?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{8,65})$"
     		)
-    private String password;
-
+    private String password;  
+    
+    @OneToMany(mappedBy = "instructor")
+    private List<Assignment> assignment;
+    
 }
 
 

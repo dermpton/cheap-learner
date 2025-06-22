@@ -2,14 +2,16 @@ package com.dermpton.elearning.model;
 
 import java.io.*;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import jakarta.persistence.OneToMany;
-//import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,28 +26,28 @@ public class Submission {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long submissionId;
 	
-//	@OneToMany
-	@SuppressWarnings("unused")
-    private Student studentId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "studentId")
+    private Student student;
 	
-//	@OneToMany
-	@SuppressWarnings("unused")
-    private Teacher instructorId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "teacherId")
+    private Teacher instructor;
 	
-//	@OneToOne
-	@SuppressWarnings("unused")
-    private Assignment assignmentId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "assignmentId")
+    private Assignment assignment;
 	
-	@SuppressWarnings("unused")
+	@Transient
     private File filePath;
 	
 	@Column(nullable = false)
     private Float grade;
 	
-	@SuppressWarnings("unused")
+	@Transient
     private String feedback;
 	
-	@SuppressWarnings("unused")
+	@Transient
     private File originalFilename;
     
 }

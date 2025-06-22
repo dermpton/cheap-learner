@@ -7,11 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import jakarta.persistence.ManyToMany;
-//import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -24,7 +27,11 @@ import lombok.*;
 )
 public class Course {
 	
-	@SuppressWarnings(value = "unused")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long courseId;
+	
+	@Transient
     private Integer activeLearnerTotal;
     
     @NotBlank(message = "Provide a course name")
@@ -39,15 +46,18 @@ public class Course {
     @ElementCollection
     private List<String> addCourse;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long courseId;
+    @ManyToOne
+    @JoinColumn(name = "teacherId", nullable = false)
+    private Teacher instructor;
     
-//    @OneToMany
-    @SuppressWarnings("unused")
-    private Teacher instructorId;
-    
-//    @ManyToMany
-    @ElementCollection
+    @ManyToMany
+    @JoinTable(
+    		name = "enrollment",
+    		joinColumns = @JoinColumn(name = "courseId"),
+    		inverseJoinColumns = @JoinColumn(name = "studentId")
+    		)
     private List<Student> students;
+    
+//    @OneToMany(mappedBy = "courseName")
+//    private Assignment assignment;
 }

@@ -9,6 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 //import jakarta.persistence.ManyToMany;
 //import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -28,27 +31,34 @@ import lombok.NoArgsConstructor;
     name = "students"
 )
 public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long studentId;
 	
+    @Email
+    @Column(unique = true, nullable = false)
+    private String email;
+    
+    @NotBlank(message = "Enter student name")
+    @Column(nullable = false)
+    private String studentName;
+    
 	@ElementCollection
     private List<String> announcements;
 	
 	@ElementCollection
     private List<String> feedback;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
-
-    @Email
-    @Column(unique = true, nullable = false)
-    private String email;
-
-//    @ManyToMany
-    @ElementCollection
+//	When you use a mappedBy argument, use the field/attribute/variable name to
+//	Encapsulate the whole relationship
+    @ManyToMany(mappedBy = "students")
     private List<Course> enrolledCourses;
 
-//    @ManyToOne
-    @SuppressWarnings("unused")
+//    Grayed out for some reason 
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "teacherId")
     private Teacher adminSchool; 
     
     @NotBlank(message = "Password must not be blank")
@@ -62,10 +72,6 @@ public class Student {
     		)
     @Column(nullable = false)
     private String password;
-
-    @NotBlank(message = "Enter student name")
-    @Column(nullable = false)
-    private String studentName;
     
 }
 
