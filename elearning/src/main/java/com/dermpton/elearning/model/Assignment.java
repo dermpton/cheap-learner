@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -34,12 +35,14 @@ public class Assignment {
     @NotBlank(message = "A title is required")
 	private String title;
 	
-	@OneToMany
-	@Column(nullable = false)
+//	@ManyToOne
+//	@Column(nullable = false)
+	@SuppressWarnings("unused")
     private Course courseName;
 	
-	@OneToMany
-	@Column(nullable = false)
+//	@OneToMany
+//	@Column(nullable = false)
+	@SuppressWarnings("unused")
     private Teacher instructor;
 	
 	@NotBlank(message = "A description is required")

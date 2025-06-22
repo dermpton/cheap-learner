@@ -7,8 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+//import jakarta.persistence.OneToMany;
+//import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,13 +24,16 @@ public class Submission {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long submissionId;
 	
-	@OneToMany
+//	@OneToMany
+	@SuppressWarnings("unused")
     private Student studentId;
 	
-	@OneToMany
+//	@OneToMany
+	@SuppressWarnings("unused")
     private Teacher instructorId;
 	
-	@OneToOne
+//	@OneToOne
+	@SuppressWarnings("unused")
     private Assignment assignmentId;
 	
 	@SuppressWarnings("unused")
