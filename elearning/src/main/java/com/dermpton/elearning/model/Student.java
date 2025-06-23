@@ -53,10 +53,7 @@ public class Student {
 //	Encapsulate the whole relationship
     @ManyToMany(mappedBy = "students")
     private List<Course> enrolledCourses;
-
-//    Grayed out for some reason 
-    
-    
+        
     @ManyToOne
     @JoinColumn(name = "teacherId")
     private Teacher adminSchool; 
