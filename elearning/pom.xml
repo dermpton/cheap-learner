@@ -12,7 +12,7 @@
 	<artifactId>elearning</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>elearning</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Mock Version of Google Classroom implemented in SpringBoot + Thymeleaf</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -69,6 +69,15 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+    		<groupId>org.mockito</groupId>
+    		<artifactId>mockito-core</artifactId>
+    		<version>5.18.0</version>
+</dependency>
 	</dependencies>
 
 	<build>
